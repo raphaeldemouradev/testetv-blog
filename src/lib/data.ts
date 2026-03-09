@@ -1,80 +1,88 @@
 import { Noticia } from "../types";
 
 export const noticias: Noticia[] = [
-  // FUTEBOL
+  // ESPORTES (3 Posts)
   {
     id: 1,
-    nicho: 'Futebol',
-    titulo: "Transferência Recorde: Craque da seleção assina com gigante europeu",
-    descricao: "A negociação que durou meses foi concretizada hoje por valores que quebram recordes históricos.",
-    data: "08 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000",
-    slug: "transferencia-recorde-futebol"
+    categoria: "Esportes",
+    titulo: "Futebol: Transferência recorde agita o mercado europeu",
+    descricao: "O atacante finalmente fechou o contrato que promete mudar o rumo da temporada europeia.",
+    slug: "transferencia-recorde-futebol",
+    imagemUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800",
+    data: "08 de Março, 2026"
   },
   {
     id: 2,
-    nicho: 'Futebol',
-    titulo: "Análise: Como o novo esquema tático mudou o rumo do campeonato",
-    descricao: "Especialistas explicam a reviravolta dos times que adotaram a marcação alta nesta temporada.",
-    data: "08 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000",
-    slug: "analise-tatica-campeonato"
+    categoria: "Esportes",
+    titulo: "Basquete: Estrela da liga anuncia aposentadoria após 20 temporadas",
+    descricao: "O mundo do esporte para para prestar homenagem a um dos maiores ícones das quadras.",
+    slug: "aposentadoria-astro-basquete",
+    imagemUrl: "https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=800",
+    data: "08 de Março, 2026"
   },
-  // FILMES
   {
     id: 3,
-    nicho: 'Filmes',
-    titulo: "Crítica: O novo blockbuster de ficção científica vale o ingresso?",
-    descricao: "Com efeitos visuais de ponta, o longa promete ser a maior estreia do ano nos cinemas.",
-    data: "07 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000",
-    slug: "critica-blockbuster-sci-fi"
+    categoria: "Esportes",
+    titulo: "F1: Piloto brasileiro conquista pódio em corrida emocionante",
+    descricao: "Em uma prova decidida na última volta, o Brasil volta a brilhar na categoria máxima.",
+    slug: "podio-f1-brasileiro",
+    imagemUrl: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80&w=800",
+    data: "07 de Março, 2026"
   },
+  // ENTRETENIMENTO (3 Posts)
   {
     id: 4,
-    nicho: 'Filmes',
-    titulo: "Clássicos que retornam: Estúdios anunciam remakes de peso para 2027",
-    descricao: "A nostalgia está em alta e três grandes sucessos dos anos 90 ganharão novas versões.",
-    data: "07 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1000",
-    slug: "remakes-anunciados-estudios"
+    categoria: "Entretenimento",
+    titulo: "Oscar 2026: Lista de indicados traz surpresas e favoritos",
+    descricao: "A academia revelou hoje os filmes que disputarão a estatueta de ouro este ano.",
+    slug: "oscar-2026-indicados",
+    imagemUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=800",
+    data: "08 de Março, 2026"
   },
-  // REALITY
   {
     id: 5,
-    nicho: 'Reality',
-    titulo: "Eliminação histórica: Recorde de votos marca a saída de favorito",
-    descricao: "O público decidiu e o resultado surpreendeu até os analistas mais experientes de reality shows.",
-    data: "06 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?q=80&w=1000",
-    slug: "eliminacao-historica-reality"
+    categoria: "Entretenimento",
+    titulo: "Reality Show: Reviravolta na votação elimina favorito do público",
+    descricao: "A noite de ontem foi marcada por tensão e estratégias que mudaram o rumo do jogo.",
+    slug: "reality-show-eliminacao",
+    imagemUrl: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=800",
+    data: "07 de Março, 2026"
   },
   {
     id: 6,
-    nicho: 'Reality',
-    titulo: "Vaza áudio: Bastidores de reality show revelam brigas não exibidas",
-    descricao: "A confusão que começou após a prova do líder teve desdobramentos pesados fora das câmeras.",
-    data: "06 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1522860353044-401597be3311?q=80&w=1000",
-    slug: "bastidores-vazados-reality"
+    categoria: "Entretenimento",
+    titulo: "Streaming: Nova série de ficção científica bate recorde de audiência",
+    descricao: "A produção original se tornou o conteúdo mais assistido da plataforma em apenas 3 dias.",
+    slug: "serie-ficcao-recorde",
+    imagemUrl: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=800",
+    data: "06 de Março, 2026"
   },
-  // JOGOS
+  // JOGOS DE VIDEOGAME (3 Posts)
   {
     id: 7,
-    nicho: 'Jogos',
-    titulo: "Nova Geração: O que esperar do console que será anunciado amanhã",
-    descricao: "Vazamentos indicam poder de processamento absurdo e suporte total a realidade virtual.",
-    data: "05 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000",
-    slug: "nova-geracao-consoles"
+    categoria: "Jogos de Videogame",
+    titulo: "Novo RPG de mundo aberto promete revolucionar os gráficos",
+    descricao: "Com lançamento previsto para o segundo semestre, o título utiliza tecnologias de ponta.",
+    slug: "novo-rpg-graficos",
+    imagemUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800",
+    data: "08 de Março, 2026"
   },
   {
     id: 8,
-    nicho: 'Jogos',
-    titulo: "Review: O RPG de mundo aberto que está consumindo as horas dos players",
-    descricao: "Com mais de 200 horas de conteúdo, este título se torna um forte candidato a jogo do ano.",
-    data: "05 de Março, 2026",
-    imagemUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000",
-    slug: "review-rpg-mundo-aberto"
+    categoria: "Jogos de Videogame",
+    titulo: "Roblox atinge marca histórica de usuários simultâneos",
+    descricao: "O evento global atraiu milhões de jogadores, consolidando a plataforma no mercado.",
+    slug: "roblox-evento-historico",
+    imagemUrl: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800",
+    data: "06 de Março, 2026"
+  },
+  {
+    id: 9,
+    categoria: "Jogos de Videogame",
+    titulo: "E-sports: Final de campeonato mundial atrai multidão em estádio",
+    descricao: "A competição de games atingiu níveis de audiência comparáveis a grandes eventos esportivos.",
+    slug: "final-esports-mundial",
+    imagemUrl: "https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=800",
+    data: "05 de Março, 2026"
   }
 ];

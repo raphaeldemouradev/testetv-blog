@@ -1,11 +1,9 @@
-export type Categoria = 'Futebol' | 'Filmes' | 'Reality' | 'Jogos';
-
 export interface Noticia {
   id: number;
-  nicho: Categoria;
+  categoria: string; // Ex: "Esportes", "Games", "Filmes"
   titulo: string;
   descricao: string;
-  data: string;
+  slug: string;
   imagemUrl: string;
-  slug: string; // Importante para as futuras páginas individuais
+  data: string;
 }

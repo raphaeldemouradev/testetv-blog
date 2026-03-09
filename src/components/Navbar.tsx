@@ -1,104 +1,96 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Fecha o menu lateral ao clicar em um link
+  const closeMenu = () => setIsOpen(false);
+
   return (
     <>
-      <nav className="bg-[#3A3A3A] text-white p-4 flex justify-between items-center shadow-md sticky top-0 z-50">
-        
-        {/* LOGOTIPO - Funciona como botão Home em todas as versões */}
-        <Link href="/">
-          <div className="flex items-center gap-1 group cursor-pointer">
-            <div className="bg-[#E6C62F] text-[#3A3A3A] px-2 py-1 font-black italic text-xl group-hover:bg-white transition-all duration-300">
-              TESTE
+      {/* NAVBAR PRINCIPAL (Estilo Foto 1) */}
+      <nav className="w-full bg-[#1A1A1A] border-b border-gray-800 sticky top-0 z-50 h-16 shadow-lg">
+        <div className="max-w-7xl mx-auto px-5 h-full flex items-center justify-between">
+          
+          {/* LOGO: TESTE TV (Caixas separadas conforme a imagem) */}
+          <Link href="/" className="flex items-center">
+            <div className="flex border-2 border-[#E6C62F] font-black italic tracking-tighter uppercase text-sm">
+              <span className="bg-[#E6C62F] text-black px-2 py-1">Teste</span>
+              <span className="text-white px-2 py-1">TV</span>
             </div>
-            <div className="border-2 border-[#E6C62F] px-2 py-0.5 font-bold text-xl group-hover:border-white transition-all duration-300">
-              TV
-            </div>
-          </div>
-        </Link>
-        
-        {/* LINKS PARA DESKTOP (Invisível no Mobile, Visível no md:flex) */}
-        {/* Adicionei o efeito de linha amarela (underline) que aparece no hover */}
-        <div className="hidden md:flex items-center gap-8 font-bold uppercase text-xs tracking-[0.2em]">
-          <Link href="/categoria/futebol" className="relative pb-1 group/link">
-            Futebol
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E6C62F] transition-all duration-300 group-hover/link:w-full"></span>
           </Link>
-          <Link href="/categoria/filmes" className="relative pb-1 group/link">
-            Filmes
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E6C62F] transition-all duration-300 group-hover/link:w-full"></span>
-          </Link>
-          <Link href="/categoria/reality" className="relative pb-1 group/link">
-            Reality
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E6C62F] transition-all duration-300 group-hover/link:w-full"></span>
-          </Link>
-          <Link href="/categoria/jogos" className="relative pb-1 group/link">
-            Jogos
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E6C62F] transition-all duration-300 group-hover/link:w-full"></span>
-          </Link>
-        </div>
 
-        {/* BOTÃO HAMBÚRGUER (Visível apenas no Mobile) */}
-        <button 
-          onClick={() => setIsOpen(true)} 
-          className="md:hidden flex flex-col gap-1.5 p-2 focus:outline-none"
-        >
-          <div className="w-8 h-1 bg-white"></div>
-          <div className="w-8 h-1 bg-[#E6C62F]"></div>
-          <div className="w-8 h-1 bg-white"></div>
-        </button>
+          {/* BOTÃO HAMBÚRGUER (3 Riscos coloridos da foto) */}
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="flex flex-col gap-1.5 p-2 focus:outline-none"
+          >
+            <div className="w-7 h-1 bg-[#E6C62F]"></div>
+            <div className="w-7 h-1 bg-white"></div>
+            <div className="w-7 h-1 bg-[#E6C62F]"></div>
+          </button>
+        </div>
       </nav>
 
-      {/* MENU MOBILE (DRAWER) */}
-      {/* O overlay escuro aparece com fade-in */}
-      <div 
-        className={`fixed inset-0 z-[60] flex transition-opacity duration-300 md:hidden ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      {/* SIDEBAR (MENU LATERAL - Estilo Foto 4) */}
+      <aside 
+        className={`fixed inset-0 z-[60] transition-all duration-500 ${
+          isOpen ? "visible" : "invisible"
         }`}
       >
-        {/* Fundo escuro que fecha o menu ao clicar */}
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setIsOpen(false)}></div>
-
-        {/* Conteúdo do Menu lateral (abre da esquerda para a direita) */}
+        {/* Fundo escuro com desfoque ao abrir */}
         <div 
-          className={`relative bg-[#3A3A3A] w-3/4 max-w-xs h-full shadow-2xl transition-transform duration-500 ease-in-out p-8 ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
+          className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-500 ${
+            isOpen ? "opacity-100" : "opacity-0"
           }`}
-        >
-          {/* Botão para fechar o menu */}
+          onClick={closeMenu}
+        ></div>
+        
+        {/* Painel do Menu Lateral */}
+        <div className={`relative w-72 bg-[#232323] h-full shadow-2xl transition-transform duration-500 ease-in-out p-10 flex flex-col ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}>
+          
+          {/* Botão de Fechar */}
           <button 
-            onClick={() => setIsOpen(false)} 
-            className="absolute top-5 right-5 text-[#E6C62F] text-4xl leading-none"
+            onClick={closeMenu} 
+            className="text-[#E6C62F] font-black self-end text-2xl hover:scale-110 transition-transform"
           >
-            &times;
+            ✕
           </button>
 
-          <div className="mt-12 flex flex-col gap-8 text-white font-bold text-xl uppercase tracking-wider">
-            {/* Link Home explícito apenas no mobile */}
-            <Link 
-              href="/" 
-              onClick={() => setIsOpen(false)} 
-              className="text-[#E6C62F] border-b border-gray-600 pb-2 mb-2 flex items-center gap-2"
-            >
-              🏠 Home
+          {/* CATEGORIAS AJUSTADAS (Esportes, Entretenimento e Videogame) */}
+          <nav className="flex flex-col gap-8 mt-10 text-white font-black uppercase italic tracking-[0.2em] text-lg">
+            <Link href="/" onClick={closeMenu} className="text-[#E6C62F] border-b border-[#E6C62F]/20 pb-2">
+              🏠 HOME
             </Link>
             
-            <Link href="/categoria/futebol" onClick={() => setIsOpen(false)} className="hover:text-[#E6C62F]">Futebol</Link>
-            <Link href="/categoria/filmes" onClick={() => setIsOpen(false)} className="hover:text-[#E6C62F]">Filmes</Link>
-            <Link href="/categoria/reality" onClick={() => setIsOpen(false)} className="hover:text-[#E6C62F]">Reality</Link>
-            <Link href="/categoria/jogos" onClick={() => setIsOpen(false)} className="hover:text-[#E6C62F]">Jogos</Link>
-          </div>
+            <Link href="/categoria/esportes" onClick={closeMenu} className="hover:text-[#E6C62F] transition-colors">
+              Esportes
+            </Link>
+            
+            <Link href="/categoria/entretenimento" onClick={closeMenu} className="hover:text-[#E6C62F] transition-colors">
+              Entretenimento
+            </Link>
+            
+            <Link href="/categoria/jogos-de-videogame" onClick={closeMenu} className="hover:text-[#E6C62F] transition-colors">
+              Videogame
+            </Link>
+          </nav>
 
-          <div className="absolute bottom-8 left-8">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">Teste TV v1.0</p>
+          {/* RODAPÉ DO MENU (Círculo com N e Versão) */}
+          <div className="mt-auto flex items-center gap-3 py-4 border-t border-white/10">
+            <div className="w-8 h-8 bg-[#E6C62F] rounded-full flex items-center justify-center text-black font-black text-xs">
+              N
+            </div>
+            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+              Teste TV V1.0
+            </span>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

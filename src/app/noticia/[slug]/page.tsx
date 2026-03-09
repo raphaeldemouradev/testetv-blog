@@ -1,84 +1,106 @@
 import { noticias } from "../../../lib/data";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import CardNoticia from "../../../components/CardNoticia";
 import { notFound } from "next/navigation";
-
-// Adicione esta função acima do seu componente PaginaNoticia
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const noticia = noticias.find((n) => n.slug === slug);
-  
-  return {
-    title: noticia ? `${noticia.titulo} | Teste TV` : "Notícia não encontrada",
-    description: noticia?.descricao,
-  };
-}
+import Link from "next/link";
 
 export default async function PaginaNoticia({ params }: { params: Promise<{ slug: string }> }) {
-  
   const { slug } = await params;
 
-  // Busca a notícia específica pelo slug no nosso arquivo de dados
+  // 1. Localiza a notícia pelo slug
   const noticia = noticias.find((n) => n.slug === slug);
 
-  // Se o slug não existir no data.ts, mostra a página 404 do Next.js
   if (!noticia) {
-    notFound();
+    return notFound();
   }
+
+  // 2. Lógica de Relacionados: Filtra por categoria e exclui a notícia atual
+  const relacionados = noticias
+    .filter((n) => n.categoria === noticia.categoria && n.id !== noticia.id)
+    .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      <article className="max-w-4xl mx-auto p-6 flex-grow w-full">
-        {/* CABEÇALHO DO ARTIGO */}
-        <header className="py-8">
-          <span className="bg-[#188E9E] text-white text-xs font-bold px-3 py-1 uppercase rounded-sm">
-            {noticia.nicho}
-          </span>
-          <h1 className="text-3xl md:text-5xl font-black text-[#3A3A3A] mt-4 leading-tight">
+      {/* ÁREA DA MATÉRIA */}
+      <article className="max-w-4xl mx-auto p-6 md:p-12 w-full flex-grow">
+        <header className="mb-8">
+          {/* Link do Nicho em Vermelho */}
+          <Link 
+            href={`/categoria/${noticia.categoria.toLowerCase().replace(/ /g, "-")}`}
+            className="text-[#A32222] font-black text-sm uppercase tracking-widest hover:underline"
+          >
+            {noticia.categoria}
+          </Link>
+          
+          <h1 className="text-4xl md:text-6xl font-black text-[#3A3A3A] mt-4 leading-tight italic">
             {noticia.titulo}
           </h1>
-          <div className="mt-6 flex items-center gap-4 text-gray-500 text-sm border-y border-gray-100 py-4">
-            <span>Por: <strong>Redação Teste TV</strong></span>
+          
+          <div className="flex items-center gap-4 mt-6 text-gray-400 text-xs font-bold uppercase tracking-widest">
+            <span>Por Redação Teste TV</span>
             <span>•</span>
             <time>{noticia.data}</time>
           </div>
         </header>
 
-        {/* IMAGEM PRINCIPAL */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">
+        {/* Imagem de Destaque */}
+        <div className="w-full aspect-video rounded-3xl overflow-hidden mb-10 shadow-xl bg-gray-100">
           <img 
             src={noticia.imagemUrl} 
             alt={noticia.titulo}
-            className="object-cover w-full h-full"
+            className="w-full h-full object-cover"
           />
         </div>
 
-        {/* CONTEÚDO DA MATÉRIA */}
-        <div className="mt-10 prose prose-lg max-w-none text-gray-800 leading-relaxed">
-          <p className="text-xl font-medium text-gray-600 mb-6 italic border-l-4 border-[#E6C62F] pl-4">
+        {/* Corpo do Texto */}
+        <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed font-medium">
+          <p className="mb-6 text-xl text-[#3A3A3A] font-bold italic border-l-4 border-[#E6C62F] pl-4">
             {noticia.descricao}
           </p>
           
-          {/* Aqui simulamos o corpo do texto que viria de um banco de dados */}
-          <p className="mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          <p className="mb-4">
+            Este é o ambiente de teste para o portal. Aqui o conteúdo completo da matéria 
+            será exibido de forma fluida e responsiva, garantindo que a experiência 
+            mobile-first seja respeitada em todos os dispositivos.
           </p>
           
-          <h2 className="text-2xl font-bold text-[#3A3A3A] mt-8 mb-4 italic">
-            O que esperar dos próximos desdobramentos?
-          </h2>
-          
-          <p className="mb-6">
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <p>
+            Abaixo, você encontrará as sugestões baseadas no nicho de **{noticia.categoria}**, 
+            mantendo você sempre por dentro das novidades do Teste TV.
           </p>
-
-          <div className="bg-gray-100 p-6 rounded-lg my-10 border-t-4 border-[#3A3A3A]">
-            <p className="text-sm font-bold text-[#3A3A3A] uppercase mb-2">💡 Fique por dentro:</p>
-            <p className="text-sm italic">O Teste TV continuará acompanhando este caso de perto. Ative as notificações para receber atualizações em tempo real.</p>
-          </div>
         </div>
+
+        {/* SEÇÃO DE RELACIONADOS / SUGESTÕES */}
+        {relacionados.length > 0 && (
+          <section className="mt-20 pt-10 border-t-8 border-[#188E9E]">
+            <div className="flex justify-between items-end mb-8">
+              <h2 className="text-3xl font-black text-[#3A3A3A] uppercase italic tracking-tighter">
+                Veja também <br />
+                <span className="text-[#A32222]">Relacionados</span>
+              </h2>
+              <Link 
+                href={`/categoria/${noticia.categoria.toLowerCase().replace(/ /g, "-")}`}
+                className="text-xs font-black uppercase border-b-2 border-[#E6C62F] pb-1 hover:text-[#188E9E] transition-colors"
+              >
+                Ver tudo
+              </Link>
+            </div>
+            
+            {/* Grid de Sugestões usando seu CardNoticia */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {relacionados.map((item) => (
+                <CardNoticia 
+                  key={item.id} 
+                  noticia={item} 
+                  exibirCategoria={false} // Limpamos o nicho pois já estamos dentro da categoria
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </article>
 
       <Footer />
