@@ -1,55 +1,81 @@
-import { noticias } from "../../../lib/data";
+import { performRequest } from "../../../lib/datocms";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import CardNoticia from "../../../components/CardNoticia";
+import { PostDato, NoticiaProps } from "../../../types";
 
-export default async function PaginaCategoria({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+const CATEGORIA_QUERY = `
+  query CategoryPage($nicho: String) {
+    allPosts(filter: {category: {eq: $nicho}}, orderBy: date_DESC) {
+      id
+      title
+      description
+      slug
+      category
+      date
+      image {
+        url
+      }
+    }
+  }
+`;
 
-  // 1. Mapeamento para garantir que o título apareça bonito na tela
-  const nomesCategorias: Record<string, string> = {
-    esportes: "Esportes",
-    entretenimento: "Entretenimento",
-    "jogos-de-videogame": "Videogame",
-  };
+export default async function PageCategoria({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await params;
+  const slugDaUrl = resolvedParams.slug;
 
-  const nomeExibicao = nomesCategorias[slug.toLowerCase()] || slug;
+  // Ajuste para garantir que a busca bata com o DatoCMS (Ex: "esportes" -> "Esportes")
+  const nichoParaFiltrar = slugDaUrl.charAt(0).toUpperCase() + slugDaUrl.slice(1);
 
-  // 2. Filtra as notícias: apenas as que batem com o nicho clicado
-  const noticiasFiltradas = noticias.filter(
-    (n) => n.categoria.toLowerCase().replace(/ /g, "-") === slug.toLowerCase()
-  );
+  const data = await performRequest({ 
+    query: CATEGORIA_QUERY, 
+    variables: { nicho: nichoParaFiltrar } 
+  });
+
+  const noticiasFiltradas: PostDato[] = data.allPosts;
 
   return (
-    <main className="min-h-screen bg-white flex flex-col">
+    <main className="min-h-screen bg-white">
       <Navbar />
-      
-      <section className="max-w-7xl mx-auto p-6 md:p-12 w-full flex-grow">
-        {/* Header do Feed do Nicho */}
-        <header className="py-10 border-b-8 border-[#188E9E] mb-12">
-          <h1 className="text-4xl md:text-6xl font-black text-[#3A3A3A] uppercase italic tracking-tighter">
-            Explorar: <span className="text-[#A32222]">{nomeExibicao}</span>
-          </h1>
-          <p className="text-gray-500 mt-4 text-lg font-medium">
-            Tudo o que aconteceu de mais importante em {nomeExibicao}.
-          </p>
-        </header>
 
-        {/* Listagem dos Posts do Nicho */}
+      {/* CABEÇALHO CLEAN (Igual ao seu Figma) */}
+      <header className="max-w-7xl mx-auto px-6 pt-16 pb-8">
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-400 text-xs font-bold uppercase tracking-[0.3em]">
+            Nicho:
+          </span>
+          <div className="flex items-center gap-4">
+            <h1 className="text-black text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-none">
+              {nichoParaFiltrar}
+            </h1>
+            {/* Detalhe visual da barrinha lateral ou inferior se quiser manter a identidade */}
+            <div className="h-10 w-2 bg-[#A32222] hidden md:block"></div>
+          </div>
+          <div className="h-1 w-full bg-gray-100 mt-6"></div>
+        </div>
+      </header>
+
+      {/* LISTAGEM DE NOTÍCIAS */}
+      <section className="max-w-7xl mx-auto px-6 pb-20">
         {noticiasFiltradas.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {noticiasFiltradas.map((item) => (
-              <CardNoticia 
-                key={item.id} 
-                noticia={item} 
-                exibirCategoria={false} // Ocultamos o nicho vermelho aqui para não ficar repetitivo
-              />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {noticiasFiltradas.map((post) => {
+              const props: NoticiaProps = {
+                titulo: post.title,
+                imagemUrl: post.image?.url || "",
+                descricao: post.description,
+                categoria: post.category,
+                slug: post.slug,
+                data: post.date
+              };
+              return <CardNoticia key={post.id} noticia={props} />;
+            })}
           </div>
         ) : (
-          <div className="py-20 text-center">
-            <h2 className="text-2xl font-bold text-gray-300 uppercase italic">Nenhum post encontrado.</h2>
-            <p className="text-gray-400">Em breve novos conteúdos de {nomeExibicao} aqui no Teste TV.</p>
+          <div className="text-center py-20 bg-[#F9F9F9] rounded-2xl">
+            <p className="text-gray-500 font-bold uppercase italic">
+              Nenhuma matéria encontrada em {nichoParaFiltrar}.
+            </p>
           </div>
         )}
       </section>

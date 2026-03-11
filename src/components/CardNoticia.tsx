@@ -1,55 +1,63 @@
 import Link from "next/link";
-import { Noticia } from "../types";
+import { NoticiaProps } from "../types";
 
-interface CardProps {
-  noticia: Noticia;
-  exibirCategoria?: boolean;
+interface CardNoticiaComponentProps {
+  noticia: NoticiaProps;
 }
 
-export default function CardNoticia({ noticia, exibirCategoria = true }: CardProps) {
+export default function CardNoticia({ noticia }: CardNoticiaComponentProps) {
+  const dataFormatada = new Date(noticia.data).toLocaleDateString('pt-BR');
+  const urlNoticia = `/noticia/${noticia.slug}`;
+  const urlCategoria = `/categoria/${noticia.categoria.toLowerCase()}`;
+
   return (
-    <article className="flex flex-col gap-2 bg-white">
+    <div className="group flex flex-col w-full bg-[#F9F9F9] border border-gray-100 rounded-2xl overflow-hidden p-4 hover:shadow-md transition-all">
       
-      {/* 1. IMAGEM PRIMEIRO (Conforme seu novo layout) */}
-      <Link href={`/noticia/${noticia.slug}`} className="group block">
-        <div className="relative aspect-video overflow-hidden rounded-2xl shadow-sm bg-gray-100">
-          <img 
-            src={noticia.imagemUrl} 
+      {/* 1. LINK NA IMAGEM */}
+      <Link href={urlNoticia} className="relative w-full h-52 overflow-hidden rounded-xl mb-4 bg-gray-200 block">
+        {noticia.imagemUrl ? (
+          <img
+            src={noticia.imagemUrl}
             alt={noticia.titulo}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
           />
-        </div>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs italic">
+            Sem imagem disponível
+          </div>
+        )}
       </Link>
 
-      <div className="flex flex-col gap-1 mt-1">
-        
-        {/* 2. NICHO EM BAIXO DA IMAGEM (Em Vermelho) */}
-        {exibirCategoria && (
-          <Link 
-            href={`/categoria/${noticia.categoria.toLowerCase().replace(/ /g, "-")}`}
-            className="text-[#A32222] font-black text-[10px] uppercase tracking-tighter hover:text-[#3A3A3A] w-fit"
-          >
-            {noticia.categoria}
-          </Link>
-        )}
-
-        {/* 3. TÍTULO -> Máximo 3 linhas */}
-        <Link href={`/noticia/${noticia.slug}`} className="group/text">
-          <h2 className="text-[#3A3A3A] font-black text-xl leading-tight line-clamp-3 group-hover/text:text-[#188E9E] transition-colors">
-            {noticia.titulo}
-          </h2>
+      {/* 2. LINK NO NICHO (No meio, com underline) */}
+      <div className="mb-2">
+        <Link 
+          href={urlCategoria}
+          className="inline-block text-[#A32222] text-xs font-black uppercase tracking-widest underline underline-offset-4 decoration-2 hover:text-black transition-colors"
+        >
+          {noticia.categoria}
         </Link>
+      </div>
 
-        {/* 4. DESCRIÇÃO -> Máximo 4 linhas */}
-        <p className="text-gray-500 text-sm leading-snug line-clamp-4 mt-1">
+      {/* 3. LINK NO TÍTULO */}
+      <Link href={urlNoticia} className="block mb-2">
+        <h3 className="text-xl font-black text-[#1A1A1A] leading-tight uppercase italic tracking-tighter group-hover:text-[#A32222] transition-colors line-clamp-2">
+          {noticia.titulo}
+        </h3>
+      </Link>
+
+      {/* 4. LINK NA DESCRIÇÃO */}
+      <Link href={urlNoticia} className="block mb-6">
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-4 font-medium">
           {noticia.descricao}
         </p>
+      </Link>
 
-        {/* 5. DATA */}
-        <time className="text-gray-400 text-[10px] font-medium mt-1 uppercase">
-          {noticia.data}
-        </time>
+      {/* 5. DATA (Rodapé estático) */}
+      <div className="mt-auto pt-4 border-t border-gray-200/50">
+        <span className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">
+          {dataFormatada}
+        </span>
       </div>
-    </article>
+    </div>
   );
 }

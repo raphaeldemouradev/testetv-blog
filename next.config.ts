@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
       hostname: 'images.unsplash.com',
       port: '',
       pathname: '/**', //permissão geral do site
-    }]
+    },
+    {
+      protocol: 'https',
+      hostname: 'www.datocms-assets.com',
+    },
+    ]
   },
 };
 

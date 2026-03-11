@@ -1,4 +1,4 @@
-import { Noticia } from "../types";
+/*import { Noticia } from "../types";
 
 export const noticias: Noticia[] = [
   // ESPORTES (3 Posts)
@@ -86,3 +86,4 @@ export const noticias: Noticia[] = [
     data: "05 de Março, 2026"
   }
 ];
+*/
