@@ -4,6 +4,7 @@ import CardNoticia from "../components/CardNoticia";
 import { performRequest } from "../lib/datocms";
 import { PostDato, NoticiaProps } from "../types";
 import Link from "next/link";
+import Image from "next/image";
 
 const HOME_QUERY = `
   query {
@@ -35,12 +36,22 @@ export default async function Home() {
       {/* 1. BANNER PRINCIPAL (Destaque conforme sua descrição) */}
       {destaque && (
         <section className="relative w-full h-[450px] md:h-[550px] bg-gray-900 overflow-hidden">
-          {/* Imagem de Fundo */}
-          <img 
-            src={destaque.image?.url} 
-            alt={destaque.title}
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
-          />
+          {/* Imagem de Fundo Otimizada (LCP Pro) */}
+          <div className="absolute inset-0 z-0"> {/* Div pai para garantir o posicionamento absoluto */}
+            {destaque.image?.url ? (
+              <Image
+                src={destaque.image.url}
+                alt={destaque.title || "Imagem de destaque"}
+                fill // Faz a imagem preencher a div (ótimo para design de fundo)
+                className="object-cover opacity-60 transition-opacity duration-700 ease-in-out" // Mantém o object-cover e a opacidade
+                sizes="100vw" // Informa ao Next que essa imagem ocupa toda a largura da tela
+                priority // MUITO IMPORTANTE: Diz ao Next.js para carregar essa imagem IMEDIATAMENTE (melhora muito a nota do Google)
+                quality={85} // Ajuste opcional de qualidade para balancear peso e visual (padrão é 75)
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-900" /> // Fallback simples para quando não houver imagem
+            )}
+          </div>
           
           {/* Overlay escuro para garantir leitura do texto branco */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

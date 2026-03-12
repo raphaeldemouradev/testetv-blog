@@ -4,6 +4,8 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { PostDato } from "../../../types";
 import Link from "next/link";
+import { Metadata } from "next";
+import Image from "next/image";
 
 // Query para buscar UMA notícia específica pelo Slug
 const NOTICIA_QUERY = `
@@ -24,6 +26,35 @@ const NOTICIA_QUERY = `
   }
 `;
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  
+  // Buscamos os dados da notícia para preencher o SEO
+  const data = await performRequest({ 
+    query: `query PostSEO($slug: String) {
+      post(filter: {slug: {eq: $slug}}) {
+        title
+        description
+        image { url }
+      }
+    }`, 
+    variables: { slug: resolvedParams.slug } 
+  });
+
+  const noticia = data.post;
+
+  return {
+    title: noticia?.title,
+    description: noticia?.description,
+    openGraph: {
+      title: noticia?.title,
+      description: noticia?.description,
+      images: [noticia?.image?.url || ""],
+      type: "article",
+    },
+  };
+}
+
 export default async function PageNoticia({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
   // Garante que o slug foi capturado corretamente da URL
   const resolvedParams = await params;
@@ -41,8 +72,25 @@ export default async function PageNoticia({ params }: { params: Promise<{ slug: 
     return <div className="p-20 text-center font-bold">Notícia não encontrada.</div>;
   }
 
+  // Objeto JSON-LD (O "crachá" para o Google)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": noticia.title,
+    "image": [noticia.image?.url],
+    "datePublished": noticia._firstPublishedAt || noticia.date || new Date().toISOString(), //carimbo de noticia
+    "dateModified": noticia._updatedAt || new Date().toISOString(), //carimbo de noticia
+    "author": [{ "@type": "Person", "name": "Raphael" }],
+    "description": noticia.description
+  };
+
   return (
     <main className="min-h-screen bg-white">
+      {/* Script do JSON-LD - Injetado de forma segura */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
 
       <article className="max-w-4xl mx-auto px-6 py-12">
@@ -64,13 +112,22 @@ export default async function PageNoticia({ params }: { params: Promise<{ slug: 
           </div>
         </header>
 
-        {/* Imagem Principal */}
-        <div className="w-full h-[300px] md:h-[500px] mb-10 overflow-hidden rounded-2xl shadow-xl">
-          <img 
-            src={noticia.image?.url} 
-            alt={noticia.title} 
-            className="w-full h-full object-cover"
-          />
+        {/* Imagem Principal Otimizada (SEO Pro) */}
+        <div className="relative w-full h-[300px] md:h-[500px] mb-10 overflow-hidden rounded-2xl shadow-xl bg-gray-100">
+          {noticia.image?.url ? (
+            <Image
+              src={noticia.image.url}
+              alt={noticia.title || "Imagem da notícia"}
+              fill // Faz a imagem preencher a div (ótimo para design responsivo)
+              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
+              sizes="(max-width: 768px) 100vw, 1024px" // Informa ao Next qual tamanho carregar
+              priority // IMPORTANTE: Carrega essa imagem primeiro (melhora a nota do Google)
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-400 italic">
+              Sem imagem disponível
+            </div>
+          )}
         </div>
 
         {/* Conteúdo da Matéria (Structured Text) */}

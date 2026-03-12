@@ -27,4 +27,6 @@ export interface PostDato {
     links?: any[];
     blocks?: any[];
   };
+  _firstPublishedAt?: string;
+  _updatedAt?: string
 }
