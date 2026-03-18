@@ -23,6 +23,8 @@ const HOME_QUERY = `
 `;
 
 export default async function Home() {
+  //await new Promise((resolve) => setTimeout(resolve, 5000)); // Trava por 5 segundos
+
   const data = await performRequest({ query: HOME_QUERY });
   const noticias: PostDato[] = data.allPosts;
 
@@ -35,7 +37,7 @@ export default async function Home() {
 
       {/* 1. BANNER PRINCIPAL (Destaque conforme sua descrição) */}
       {destaque && (
-        <section className="relative w-full h-[450px] md:h-[550px] bg-gray-900 overflow-hidden">
+        <section className="relative w-full h-[60vh] md:h-[80vh] bg-gray-900 overflow-hidden">
           {/* Imagem de Fundo Otimizada (LCP Pro) */}
           <div className="absolute inset-0 z-0"> {/* Div pai para garantir o posicionamento absoluto */}
             {destaque.image?.url ? (
@@ -43,7 +45,7 @@ export default async function Home() {
                 src={destaque.image.url}
                 alt={destaque.title || "Imagem de destaque"}
                 fill // Faz a imagem preencher a div (ótimo para design de fundo)
-                className="object-cover opacity-60 transition-opacity duration-700 ease-in-out" // Mantém o object-cover e a opacidade
+                className="object-cover object-center opacity-70 transition-opacity duration-700" // Mantém o object-cover e a opacidade
                 sizes="100vw" // Informa ao Next que essa imagem ocupa toda a largura da tela
                 priority // MUITO IMPORTANTE: Diz ao Next.js para carregar essa imagem IMEDIATAMENTE (melhora muito a nota do Google)
                 quality={85} // Ajuste opcional de qualidade para balancear peso e visual (padrão é 75)
@@ -54,7 +56,7 @@ export default async function Home() {
           </div>
           
           {/* Overlay escuro para garantir leitura do texto branco */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
           {/* Conteúdo posicionado na lateral esquerda/baixo (Onde estaria o X) */}
           <div className="absolute bottom-12 left-6 md:left-12 max-w-2xl z-10">
@@ -67,7 +69,14 @@ export default async function Home() {
         </section>
       )}
 
-      {/* 2. SEÇÃO MAIS RECENTES (Feed de Nicho) */}
+      {/* 2. ANÚNCIO (AD) - POSIÇÃO FIXA LOGO ABAIXO DO BANNER */}
+      <div className="w-full bg-[#f0f0f0] py-8 flex justify-center border-b border-gray-200">
+        <div className="w-[300px] h-[100px] md:w-[728px] md:h-[90px] bg-gray-300 flex items-center justify-center border border-gray-400">
+           <span className="text-gray-500 font-mono text-sm tracking-widest">ANÚNCIO (AD)</span>
+        </div>
+      </div>
+
+      {/* 3. SEÇÃO MAIS RECENTES (Feed de Nicho) */}
       <section className="max-w-7xl mx-auto px-6 py-12 w-full">
         <div className="mb-10">
           <h2 className="text-3xl font-black text-black uppercase italic tracking-tighter border-l-8 border-[#A32222] pl-4">

@@ -24,7 +24,6 @@ export default function NotFound() {
         
         <p className="text-gray-600 max-w-md mb-8 font-medium">
           Parece que essa notícia "saiu da grade" ou o link foi movido. 
-          Não deixe a sua audiência cair no chiado!
         </p>
 
         {/* Botões de Ação */}
@@ -34,13 +33,6 @@ export default function NotFound() {
             className="bg-[#E6C62F] text-[#3A3A3A] font-black py-3 px-8 rounded-full hover:bg-[#3A3A3A] hover:text-white transition-all transform hover:scale-105 uppercase text-sm shadow-lg"
           >
             Voltar para a Home
-          </Link>
-          
-          <Link 
-            href="/categoria/futebol" 
-            className="border-2 border-[#188E9E] text-[#188E9E] font-black py-3 px-8 rounded-full hover:bg-[#188E9E] hover:text-white transition-all uppercase text-sm"
-          >
-            Ver Futebol
           </Link>
         </div>
 
