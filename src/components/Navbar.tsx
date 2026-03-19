@@ -35,7 +35,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/categoria/jogos-de-videogame" className="hover:text-[#E6C62F] transition-colors">
+              <Link href="/categoria/videogame" className="hover:text-[#E6C62F] transition-colors">
                 Videogame
               </Link>
             </li>
@@ -64,7 +64,7 @@ export default function Navbar() {
             <Link href="/" onClick={closeMenu} className="text-[#E6C62F] border-b border-[#E6C62F]/20 pb-2">🏠 HOME</Link>
             <Link href="/categoria/esportes" onClick={closeMenu}>Esportes</Link>
             <Link href="/categoria/entretenimento" onClick={closeMenu}>Entretenimento</Link>
-            <Link href="/categoria/jogos-de-videogame" onClick={closeMenu}>Videogame</Link>
+            <Link href="/categoria/videogame" onClick={closeMenu}>Videogame</Link>
           </nav>
         </div>
       </aside>

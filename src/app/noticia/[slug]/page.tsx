@@ -91,7 +91,15 @@ export default async function PageNoticia({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
       <Navbar />
+
+      {/* ANÚNCIO (AD) - POSIÇÃO FIXA LOGO ABAIXO DA NAVBAR */}
+      <div className="w-full bg-[#f0f0f0] py-8 flex justify-center border-b border-gray-200">
+        <div className="w-[300px] h-[80px] md:w-[728px] md:h-[90px] bg-gray-300 flex items-center justify-center border border-gray-400">
+           <span className="text-gray-500 font-mono text-sm tracking-widest">ANÚNCIO (AD)</span>
+        </div>
+      </div>
 
       <article className="max-w-4xl mx-auto px-6 py-12">
         {/* Cabeçalho da Matéria */}
