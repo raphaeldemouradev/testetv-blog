@@ -42,7 +42,7 @@ export default function Footer() {
           <ul className="flex flex-col gap-2 font-bold text-sm">
             <li><Link href="/" className="hover:underline">Página Inicial</Link></li>
             <li><span className="opacity-50">Sobre o Teste</span></li>
-            <li><span className="opacity-50">Anuncie Aqui</span></li>
+            <li><span className="opacity-50">Apoie Aqui</span></li>
           </ul>
         </div>
 
@@ -53,13 +53,13 @@ export default function Footer() {
           </h4>
           <div className="flex gap-3">
             <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-[#E6C62F] font-bold">
-              f
+              in
             </div>
             <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-[#E6C62F] font-bold">
-              ig
+              GH
             </div>
             <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-[#E6C62F] font-bold">
-              yt
+              YT
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function Footer() {
       <div className="border-t border-black/10 py-6">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-black uppercase tracking-widest">
           <p>© 2026 Teste TV - Todos os direitos reservados</p>
-          <p>Desenvolvido por Raphael de Moura</p>
+          <p>Desenvolvido por <a href="https://www.linkedin.com/in/raphael-moura-dev/">Raphael de Moura</a></p>
         </div>
       </div>
     </footer>

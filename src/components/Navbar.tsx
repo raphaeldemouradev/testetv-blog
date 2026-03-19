@@ -25,6 +25,11 @@ export default function Navbar() {
           */}
           <ul className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-white italic">
             <li>
+              <Link href="/" className="hover:text-[#E6C62F] transition-colors">
+                Home
+              </Link>
+            </li>
+            <li>
               <Link href="/categoria/esportes" className="hover:text-[#E6C62F] transition-colors">
                 Esportes
               </Link>
