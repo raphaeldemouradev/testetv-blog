@@ -1,6 +1,7 @@
 // src/app/sitemap.ts
 import { MetadataRoute } from 'next';
 import { performRequest } from '../lib/datocms';
+import { PostDato } from '../types';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 1. Defina a URL base do seu site (quando você subir para a Vercel, mude aqui)
@@ -19,9 +20,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // 3. Transformamos os dados do Dato em links do Sitemap
-  const noticiasUrls = data.allPosts.map((post: any) => ({
+  const noticiasUrls = data.allPosts.map((post: PostDato) => ({
     url: `${baseUrl}/noticia/${post.slug}`,
-    lastModified: new Date(post._updatedAt),
+    //lastModified: new Date(post._updatedAt),
     changeFrequency: 'daily' as const,
     priority: 0.7,
   }));

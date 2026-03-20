@@ -1,4 +1,5 @@
 // src/types/index.ts
+import { StructuredTextDocument } from "react-datocms";
 
 // 1. O que o seu site (Frontend) espera (em Português para facilitar seu design)
 export interface NoticiaProps {
@@ -23,9 +24,7 @@ export interface PostDato {
     url: string;
   } | null;
   content?: {
-    value: any;
-    links?: any[];
-    blocks?: any[];
+    value: StructuredTextDocument;
   };
   _firstPublishedAt?: string;
   _updatedAt?: string

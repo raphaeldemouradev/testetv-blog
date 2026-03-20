@@ -1,8 +1,6 @@
 // src/lib/datocms.ts
 
-// Usamos 'any' aqui para que você possa passar qualquer query ou variável
-// sem que o TypeScript bloqueie o seu progresso.
-export async function performRequest({ query, variables = {} }: { query: string, variables?: any }) {
+export async function performRequest({ query, variables = {} }: { query: string, variables?: Record<string, unknown> }) {
   const response = await fetch("https://graphql.datocms.com/", {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_DATOCMS_API_TOKEN}`,
