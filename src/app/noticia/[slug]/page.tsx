@@ -4,10 +4,11 @@ import { performRequest } from "../../../lib/datocms";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import AdMateria from "../../../components/AdMateria";
-import { PostDato, RenderBlockProps, BlockAnuncio, NoticiaProps } from "../../../types";
+import { PostDato, RenderBlockProps, NoticiaProps } from "../../../types";
 import Link from "next/link";
 import { Metadata } from "next";
 import Image from "next/image";
+import CardNoticia from "@/src/components/CardNoticia";
 
 const NOTICIA_QUERY = `
   query SinglePost($slug: String) {
@@ -68,6 +69,30 @@ export default async function PageNoticia({ params }: { params: Promise<{ slug: 
 
   const noticia: PostDato = data.post;
 
+// 2. BUSCA SEM MEXER NO GRAPHQL ORIGINAL
+// Criamos uma query rápida só para pegar as recomendações da mesma categoria
+const recommendationsData = await performRequest({
+  query: `
+    query Recs($category: String, $currentSlug: String) {
+      allPosts(first: 3, filter: {category: {eq: $category}, slug: {neq: $currentSlug}}) {
+        id
+        title
+        description
+        slug
+        category
+        date
+        image { url }
+      }
+    }
+  `,
+  variables: { 
+    category: noticia.category, 
+    currentSlug: slug 
+  }
+});
+
+const recomendados = recommendationsData.allPosts;
+
   if (!noticia) {
     return <div className="p-20 text-center font-bold">Notícia não encontrada.</div>;
   }
@@ -117,7 +142,33 @@ export default async function PageNoticia({ params }: { params: Promise<{ slug: 
           />
         </div>
         
+        {/* Seção de Recomendados usando seu componente CardNoticia */}
+<section className="max-w-4xl mx-auto px-6 py-12 border-t border-gray-100">
+  <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-8 flex items-center">
+    <span className="w-2 h-8 bg-[#E6C62F] mr-3"></span>
+    Veja também em {noticia.category}
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {recomendados.map((item: PostDato) => (
+      <CardNoticia 
+        key={item.id} 
+        noticia={{
+          id: item.id,
+          titulo: item.title,
+          imagemUrl: item.image?.url || "",
+          descricao: item.description,
+          categoria: item.category,
+          slug: item.slug,
+          data: item.date
+        }} 
+      />
+    ))}
+  </div>
+</section>
       </article>
+
+      
 
       <Footer />
     </main>
