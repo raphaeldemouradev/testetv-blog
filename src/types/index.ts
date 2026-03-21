@@ -12,6 +12,17 @@ export interface NoticiaProps {
   data: string;
 }
 
+// Anuncio types
+export interface BlockAnuncio {
+  id: string;
+  __typename: string
+}
+
+// bloco
+export interface RenderBlockProps {
+  record: BlockAnuncio;
+}
+
 // 2. O que o DatoCMS (Backend) envia (em Inglês, como está no Playground)
 export interface PostDato {
   id: string;
@@ -23,8 +34,9 @@ export interface PostDato {
   image: {
     url: string;
   } | null;
-  content?: {
+  content: {
     value: StructuredTextDocument;
+    blocks: any[];
   };
   _firstPublishedAt?: string;
   _updatedAt?: string

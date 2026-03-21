@@ -3,6 +3,7 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import CardNoticia from "../../../components/CardNoticia";
 import { PostDato, NoticiaProps } from "../../../types";
+import { Fragment } from "react/jsx-runtime";
 
 const CATEGORIA_QUERY = `
   query CategoryPage($nicho: String) {
@@ -66,7 +67,7 @@ export default async function PageCategoria({ params }: { params: Promise<{ slug
       <section className="max-w-7xl mx-auto px-6 pb-20">
         {noticiasFiltradas.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {noticiasFiltradas.map((post) => {
+            {noticiasFiltradas.map((post, index) => {
               const props: NoticiaProps = {
                 titulo: post.title,
                 imagemUrl: post.image?.url || "",
@@ -75,7 +76,23 @@ export default async function PageCategoria({ params }: { params: Promise<{ slug
                 slug: post.slug,
                 data: post.date
               };
-              return <CardNoticia key={post.id} noticia={props} />;
+              return (
+                <Fragment key={post.id}>
+                {/* Renderiza o Card */}
+                <CardNoticia noticia={props} />
+
+                {/* Lógica do Anúncio: index + 1 divisível por 3 */}
+                {(index + 1) % 3 === 0 && (
+                  <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center py-6">
+                    <div className="w-full h-[150px] bg-[#F9F9F9] border-2 border-dashed border-gray-300 flex items-center justify-center rounded-2xl">
+                      <span className="text-gray-400 font-bold tracking-widest uppercase text-xs">
+                        Publicidade - {post.category}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </Fragment>
+              )
             })}
           </div>
         ) : (

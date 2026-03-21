@@ -5,6 +5,7 @@ import { performRequest } from "../lib/datocms";
 import { PostDato, NoticiaProps } from "../types";
 import Link from "next/link";
 import Image from "next/image";
+import { Fragment } from "react/jsx-runtime";
 
 const HOME_QUERY = `
   query {
@@ -86,7 +87,7 @@ export default async function Home() {
 
         {/* Grid de Cards conforme o Figma */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {maisRecentes.map((post) => {
+          {maisRecentes.map((post, index) => {
             const props: NoticiaProps = {
               titulo: post.title,
               imagemUrl: post.image?.url || "",
@@ -96,7 +97,23 @@ export default async function Home() {
               data: post.date
             };
 
-            return <CardNoticia key={post.id} noticia={props} />;
+            return (
+              <Fragment key={post.id}>
+                {/* Renderiza o Card da Notícia */}
+                <CardNoticia noticia={props} />
+
+                {/* Lógica: Se o índice + 1 for divisível por 3, insere o AD */}
+                {(index + 1) % 3 === 0 && (
+                  <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center py-4">
+                    <div className="w-full h-[150px] bg-[#f9f9f9] border-2 border-dashed border-gray-300 flex items-center justify-center rounded-2xl">
+                      <span className="text-gray-400 font-bold tracking-widest uppercase text-xs">
+                        Anúncio (AD)
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </Fragment>
+            )
           })}
         </div>
       </section>
