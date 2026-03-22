@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Teste TV | Protótipo de Performance e Web Site
 
-## Getting Started
+Este projeto é um ambiente de testes para validar a arquitetura de um blog de notícias 
+escalável. Aqui, eu experimento integrações entre **DatoCMS**, **Next.js** e **TypeScript**, 
+garantindo uma tipagem robusta e design prático com **Tailwind CSS**.
 
-First, run the development server:
+### Tecnologias (Stack)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+* **Core:** Next.js (App Router), React, TypeScript.
+* **Gestão de Conteúdo:** DatoCMS (Headless CMS) com StructuredText.
+* **Estilização:**  Tailwind CSS (Implementação de layouts fluidos e Mobile-First).
+* **SEO:** Implementação dinâmica de metadados e OpenGraph.
+
+### Validação
+
+* **Renderização de Blocos Dinâmicos:** Implementação de lógica para inserir anúncios (AdMateria) de forma automática no meio do conteúdo estruturado.
+* **Tipagem Avançada de CMS:** Resolução de conflitos de tipagem entre API e Componentes, garantindo Type Safety sem depender de any (onde possível).
+* **Sistema de Recomendações:** Algoritmo de filtragem por categoria no frontend para aumentar o tempo de permanência do usuário.
+* **Arquitetura de Dados:** Mapeamento de dados do backend (DatoCMS) para componentes de interface.
+
+### Estrutura de páginas
+```
+src/
+ ├── components/    # UI Reutilizável (Navbar, Footer, CardNoticia)
+ ├── lib/           # Conexão com APIs (DatoCMS)
+ ├── types/         # Onde a mágica da tipagem acontece (PostDato, etc)
+ └── app/           # Páginas e roteamento (Next.js App Router)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Interface do Projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Desktop
+![Preview Desktop](./public/screenshots/desktop-home.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Mobile
+<img src="./public/screenshots/mobile-home.png" width="300px" alt="Preview Mobile">
