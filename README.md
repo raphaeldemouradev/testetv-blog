@@ -34,3 +34,7 @@ src/
 
 ### Mobile
 <img src="./public/screenshots/mobile-home.png" width="300px" alt="Preview Mobile">
+
+### Link para acesso (Caso esteja com problema):
+
+* -[Teste TV](https://testetv-blog.vercel.app)
